@@ -1,0 +1,15 @@
+name: nlpf
+version: 0.1.0
+crystal: 0.27.0
+
+dependencies:
+  kemal:
+    github: kemalcr/kemal
+  kemal-session:
+    github: kemalcr/kemal-session
+  email:
+    github: arcage/crystal-email
+  sqlite3:
+    github: crystal-lang/crystal-sqlite3
+  crecto:
+    github: fridgerator/crecto

@@ -1,0 +1,633 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <title>Bob's Website</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="description" content="Bob's Website"/>
+        <meta name="keywords" content="Cristal"/>
+        <meta name="author" content="Cristal"/>
+        <meta name="twitter:card" content="" />
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        <link rel="shortcut icon" href="favicon.ico"/>
+        <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700" rel="stylesheet"/>
+        <!-- Animate.css -->
+        <link rel="stylesheet" href="css/animate.css"/>
+        <!-- Icomoon Icon Fonts-->
+        <link rel="stylesheet" href="css/icomoon.css"/>
+        <!-- Bootstrap  -->
+        <link rel="stylesheet" href="css/bootstrap.css"/>
+        <!-- Flexslider  -->
+        <link rel="stylesheet" href="css/flexslider.css"/>
+
+        <link rel="stylesheet" href="css/rmodal.css"/>
+        <!-- Owl Carousel -->
+        <link rel="stylesheet" href="css/owl.carousel.min.css"/>
+        <link rel="stylesheet" href="css/owl.theme.default.min.css"/>
+        <!-- Theme style  -->
+        <link rel="stylesheet" href="css/style.css"/>
+        <!-- Modernizr JS -->
+        <script src="js/modernizr-2.6.2.min.js"></script>
+        <!-- FOR IE9 below -->
+        <!--[if lt IE 9]>
+        <script src="js/respond.min.js"></script>
+        <![endif]-->
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/leaflet.css"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/leaflet.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vuelidate@0.7.4/dist/vuelidate.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vuelidate@0.7.4/dist/validators.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"></script>
+    </head>
+    <body>
+        <div id="colorlib-page">
+            <div id="app" class="container-wrap">
+                <a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <i></i>
+                </a>
+                <aside id="colorlib-aside" role="complementary" class="border js-fullheight" style="z-index: 100;">
+                    <div class="text-center">
+                        <div class="author-img" style="background-image: url(images/about.jpg);"></div>
+                        <h1 id="colorlib-logo"><a href="index.html">Booob Bob</a></h1>
+                        <span class="position"><a href="#">Cristal</a> in EPITA</span>
+                    </div>
+                    <nav id="colorlib-main-menu" role="navigation" class="navbar">
+                        <div id="navbar" class="collapse">
+                            <ul>
+                                <li class="active"><a href="#" data-nav-section="home">Home</a></li>
+                                <li><a href="#" data-nav-section="about">About</a></li>
+                                <li><a href="#" data-nav-section="services">Services</a></li>
+                                <%- if !logged -%>
+                                <li><a href="#" data-nav-section="register">Register</a></li>
+                                <%- elsif is_admin -%>
+                                <li><a href="#" data-nav-section="admin-tickets">Admin Tickets</a></li>
+                                <li><a href="#" data-nav-section="admin-calendar">Admin Calendar</a></li>
+                                <li><a href="/signout" onclick="location.replace('/signout')">Sign out</a></li>
+                                <%- else -%>
+                                <li><a href="#" data-nav-section="profil">Profil</a></li>
+                                <li><a href="#" data-nav-section="buildings">Buildings</a></li>
+                                <li><a href="#" data-nav-section="tickets">Tickets</a></li>
+                                <li><a href="/signout" onclick="location.replace('/signout')">Sign out</a></li>
+                                <%- end -%>
+                            </ul>
+                        </div>
+                    </nav>
+                    <%- if !logged -%>
+                    <form action="/signin" method="post">
+                        <p style="text-align: center; background-color: lightgrey; padding: 5px;">Log In</p>
+                        <div class="form-group">
+                            <input name="email" type="email" class="form-control" placeholder="Email"/>
+                        </div>
+                        <div class="form-group">
+                            <input name="password" type="password" class="form-control" placeholder="Password"/>
+                        </div>
+                        <%- if error -%>
+                          <p style="text-align: center;"><%= error %></p>
+                        <%- end -%>
+
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary btn-send-message" value="Login" style="width: 100%; border-radius: 0;"/>
+                        </div>
+                    </form>
+                    <%- end -%>
+                    <div class="colorlib-footer">
+                        <p>
+                            &copy;Copyright <script>document.write(new Date().getFullYear());</script> All rights reserved<br>
+                            This Website is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://www.cristal.je" target="_blank">Cristal</a>
+                        </p>
+                    </div>
+                </aside>
+                <div id="colorlib-main">
+                    <section id="colorlib-hero" class="js-fullheight" data-section="home">
+                        <div class="flexslider js-fullheight">
+                            <ul class="slides">
+                                <li style="background-image: url(images/img_bg_1.jpg);">
+                                    <div class="overlay"></div>
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-md-6 col-md-offset-3 col-md-pull-3 col-sm-12 col-xs-12 js-fullheight slider-text">
+                                                <div class="slider-text-inner js-fullheight">
+                                                    <div class="desc">
+                                                        <h1>Hi! <br>I'm Jackson</h1>
+                                                        <h2>100% html5 bootstrap templates Made by <a href="https://colorlib.com/" target="_blank">colorlib.com</a></h2>
+                                                        <p><a class="btn btn-primary btn-learn">Download CV <i class="icon-download4"></i></a></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li style="background-image: url(images/img_bg_2.jpg);">
+                                    <div class="overlay"></div>
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-md-6 col-md-offset-3 col-md-pull-3 col-sm-12 col-xs-12 js-fullheight slider-text">
+                                                <div class="slider-text-inner">
+                                                    <div class="desc">
+                                                        <h1>I am <br>a Designer</h1>
+                                                        <h2>100% html5 bootstrap templates Made by <a href="https://colorlib.com/" target="_blank">colorlib.com</a></h2>
+                                                        <p><a class="btn btn-primary btn-learn">View Portfolio <i class="icon-briefcase3"></i></a></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+                    <section class="colorlib-about" data-section="about">
+                        <div class="colorlib-narrow-content">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row row-bottom-padded-sm animate-box" data-animate-effect="fadeInLeft">
+                                        <div class="col-md-12">
+                                            <div class="about-desc">
+                                                <span class="heading-meta">About Us</span>
+                                                <h2 class="colorlib-heading">Who Am I?</h2>
+                                                <p><strong>Hi I'm Jackson Ford</strong> On her way she met a copy. The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word "and" and the Little Blind Text should turn around and return to its own, safe country.</p>
+                                                <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 animate-box" data-animate-effect="fadeInLeft">
+                                            <div class="services color-1">
+                                                <span class="icon2"><i class="icon-bulb"></i></span>
+                                                <h3>Graphic Design</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 animate-box" data-animate-effect="fadeInRight">
+                                            <div class="services color-2">
+                                                <span class="icon2"><i class="icon-globe-outline"></i></span>
+                                                <h3>Web Design</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 animate-box" data-animate-effect="fadeInTop">
+                                            <div class="services color-3">
+                                                <span class="icon2"><i class="icon-data"></i></span>
+                                                <h3>Software</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 animate-box" data-animate-effect="fadeInBottom">
+                                            <div class="services color-4">
+                                                <span class="icon2"><i class="icon-phone3"></i></span>
+                                                <h3>Application</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 animate-box" data-animate-effect="fadeInLeft">
+                                            <div class="hire">
+                                                <h2>I am happy to know you <br>that 300+ projects done sucessfully!</h2>
+                                                <a href="#" class="btn-hire">Hire me</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="colorlib-services" data-section="services">
+                        <div class="colorlib-narrow-content">
+                            <div class="row">
+                                <div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
+                                    <span class="heading-meta">What I do?</span>
+                                    <h2 class="colorlib-heading">Here are some of my expertise</h2>
+                                </div>
+                            </div>
+                            <div class="row row-pt-md">
+                                <div class="col-md-4 text-center animate-box">
+                                    <div class="services color-1">
+                                        <span class="icon">
+                                            <i class="icon-bulb"></i>
+                                        </span>
+                                        <div class="desc">
+                                            <h3>Innovative Ideas</h3>
+                                            <p>Separated they live in Bookmarksgrove right at the coast of the Semantics</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center animate-box">
+                                    <div class="services color-2">
+                                        <span class="icon">
+                                            <i class="icon-data"></i>
+                                        </span>
+                                        <div class="desc">
+                                            <h3>Software</h3>
+                                            <p>Separated they live in Bookmarksgrove right at the coast of the Semantics</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center animate-box">
+                                    <div class="services color-3">
+                                        <span class="icon">
+                                            <i class="icon-phone3"></i>
+                                        </span>
+                                        <div class="desc">
+                                            <h3>Application</h3>
+                                            <p>Separated they live in Bookmarksgrove right at the coast of the Semantics</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center animate-box">
+                                    <div class="services color-4">
+                                        <span class="icon">
+                                            <i class="icon-layers2"></i>
+                                        </span>
+                                        <div class="desc">
+                                            <h3>Graphic Design</h3>
+                                            <p>Separated they live in Bookmarksgrove right at the coast of the Semantics</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center animate-box">
+                                    <div class="services color-5">
+                                        <span class="icon">
+                                            <i class="icon-data"></i>
+                                        </span>
+                                        <div class="desc">
+                                            <h3>Software</h3>
+                                            <p>Separated they live in Bookmarksgrove right at the coast of the Semantics</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center animate-box">
+                                    <div class="services color-6">
+                                        <span class="icon">
+                                            <i class="icon-phone3"></i>
+                                        </span>
+                                        <div class="desc">
+                                            <h3>Application</h3>
+                                            <p>Separated they live in Bookmarksgrove right at the coast of the Semantics</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <div id="colorlib-counter" class="colorlib-counters" style="background-image: url(images/cover_bg_1.jpg);" data-stellar-background-ratio="0.5">
+                        <div class="overlay"></div>
+                        <div class="colorlib-narrow-content">
+                            <div class="row">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 text-center animate-box">
+                                    <span class="colorlib-counter js-counter" data-from="0" data-to="309" data-speed="5000" data-refresh-interval="50"></span>
+                                    <span class="colorlib-counter-label">Cups of coffee</span>
+                                </div>
+                                <div class="col-md-3 text-center animate-box">
+                                    <span class="colorlib-counter js-counter" data-from="0" data-to="356" data-speed="5000" data-refresh-interval="50"></span>
+                                    <span class="colorlib-counter-label">Projects</span>
+                                </div>
+                                <div class="col-md-3 text-center animate-box">
+                                    <span class="colorlib-counter js-counter" data-from="0" data-to="30" data-speed="5000" data-refresh-interval="50"></span>
+                                    <span class="colorlib-counter-label">Clients</span>
+                                </div>
+                                <div class="col-md-3 text-center animate-box">
+                                    <span class="colorlib-counter js-counter" data-from="0" data-to="10" data-speed="5000" data-refresh-interval="50"></span>
+                                    <span class="colorlib-counter-label">Partners</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <%- if logged && !is_admin -%>
+                    <section class="colorlib-experience" data-section="profil" style="height: 100vh; padding-bottom: 0;">
+                        <div class="colorlib-narrow-content" style="max-height: -webkit-fill-available; display: flex; flex-direction: column;">
+                            <div class="row" style="flex: 1;">
+                                <div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
+                                    <span class="heading-meta">Here's your profil</span>
+                                    <h2 class="colorlib-heading">CRISTAL</h2>
+                                </div>
+                            </div>
+                            <div class="row" style="overflow: hidden; overflow-y: scroll; display: block; position: relative; flex: 1;">
+                                <div class="col-md-12">
+                                    <p>blablabla</p>
+                                </div>
+                            </div>
+                            <div style="height: 9em; flex: 1;">
+                            </div>
+                        </div>
+                    </section>
+                    <section class="colorlib-work" data-section="buildings" style="height: 100vh; padding-bottom: 0;">
+                        <div class="colorlib-narrow-content" style="max-height: -webkit-fill-available; display: flex; flex-direction: column;">
+                            <div class="row" style="flex: 1;">
+                                <div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
+                                    <span class="heading-meta">Here's your buildings</span>
+                                    <a href="#" id="show_modal_building"><h2 class="colorlib-heading">Create building</h2></a>
+                                </div>
+                            </div>
+                            <div class="row" style="overflow: hidden; overflow-y: scroll; display: block; position: relative; flex: 1;">
+                                <div v-for="building in buildings" class="col-md-6 animate-box" data-animate-effect="fadeInLeft" style="opacity: 1;">
+                                    <div class="project" :style="'background-image: url(/building/' + building.id + '/img);'">
+                                        <div class="desc">
+                                            <div class="con">
+                                                <h3><a style="text-transform: capitalize;">{{building.name}}</a></h3>
+                                                <span style="text-transform: capitalize;">{{building.address}} - {{building.country}}</span>
+                                                <p class="icon">
+                                                    <span><a @click="delete_bulding(building.id)" style="cursor: pointer;"><i class="icon-share3"></i> Delete</a></span>
+                                                    <span><a href="#"><i class="icon-eye"></i> Edit</a></span>
+                                                    <span><a href="#"><i class="icon-heart"></i> T. 100</a></span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div v-show="buildings.length === 0">
+                                No buildings
+                            </div>
+                            <div style="height: 9em; flex: 1;">
+                            </div>
+                        </div>
+                    </section>
+                    <section class="colorlib-experience" data-section="tickets" style="height: 100vh; padding-bottom: 0;">
+                        <div class="colorlib-narrow-content" style="max-height: -webkit-fill-available; display: flex; flex-direction: column;">
+                            <div class="row" style="flex: 1;">
+                                <div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
+                                    <span class="heading-meta">Here's your tickets</span>
+                                    <a href="#" id="show_modal_ticket"><h2 class="colorlib-heading">Create Ticket</h2></a>
+                                </div>
+                            </div>
+                            <div class="row" style="overflow: hidden; overflow-y: scroll; display: block; position: relative; flex: 1;">
+                                <div class="col-md-12">
+                                    <div v-show="tickets.length !== 0" class="timeline-centered">
+                                        <article v-for="ticket in tickets" class="timeline-entry animate-box" style="opacity: 1;">
+                                            <div class="timeline-entry-inner">
+                                                <div class="timeline-icon color-1">
+                                                    <i class="icon-pen2"></i>
+                                                </div>
+                                                <div class="timeline-label" style="display: flex;">
+                                                    <img :src="'/ticket/' + ticket.id + '/img'" style="max-height: 100px; margin-right: 15px;">
+                                                    <p>
+                                                        <span>Ticket n# {{ticket.id}}</span> <span>created at {{ new Date(ticket.created_at).toLocaleString() }}</span><br>
+                                                        <span>Intervention date : {{ new Date(ticket.intervention_time).toLocaleString() }}</span><br>
+                                                        <span>Building : {{ticket.building.name}}</span><br>
+                                                        <span>Floor : {{ticket.floor}}</span> - <span>Orientation : {{ticket.orientation}}°</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </article>
+                                        <article class="timeline-entry begin animate-box" style="opacity: 1;">
+                                            <div class="timeline-entry-inner">
+                                                <div class="timeline-icon color-none">
+                                                </div>
+                                            </div>
+                                        </article>
+                                    </div>
+                                    <div v-show="tickets.length === 0">
+                                        No tickets
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height: 9em; flex: 1;">
+                            </div>
+                        </div>
+                    </section>
+                    <%- elsif logged && is_admin -%>
+                    <section class="colorlib-experience" data-section="admin-tickets" style="height: 100vh; padding-bottom: 0;">
+                        <div class="colorlib-narrow-content" style="max-height: -webkit-fill-available; display: flex; flex-direction: column;">
+                            <div class="row" style="flex: 1;">
+                                <div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
+                                    <span class="heading-meta">Here's all your tickets</span>
+                                    <a href="#" ><h2 class="colorlib-heading">All Ticket</h2></a>
+                                </div>
+                            </div>
+                            <div class="row" style="overflow: hidden; overflow-y: scroll; display: block; position: relative; flex: 1;">
+                                <div class="col-md-12">
+                                    <div v-show="tickets.length !== 0" class="timeline-centered">
+                                        <article v-for="ticket in tickets" class="timeline-entry animate-box" style="opacity: 1;">
+                                            <div class="timeline-entry-inner">
+                                                <div v-if="ticket.state === 0" class="timeline-icon color-3"><i class="icon-pen2"></i></div>
+                                                <div v-if="ticket.state === 3" class="timeline-icon color-2"><i class="icon-pen2"></i></div>
+                                                <div v-if="ticket.state === 1" class="timeline-icon color-5"><i class="icon-pen2"></i></div>
+                                                <div v-if="ticket.state === 2" class="timeline-icon color-4"><i class="icon-pen2"></i></div>
+
+                                                <div class="timeline-label" style="display: flex;">
+                                                    <img :src="'/ticket/' + ticket.id + '/img'" style="max-height: 100px; margin-right: 15px;">
+                                                    <p style="flex: 1;">
+                                                        <span>Ticket n# {{ticket.id}}</span> <span>created at {{ new Date(ticket.created_at).toLocaleString() }}</span><br>
+                                                        <span>Intervention date : {{ new Date(ticket.intervention_time).toLocaleString() }}</span><br>
+                                                        <span>Building : {{ticket.building.address}}</span><br>
+                                                        <span>Floor : {{ticket.floor}}</span> - <span>Orientation : {{ticket.orientation}}°</span>
+                                                    </p>
+                                                    <p class="icon" style="display: flex; flex-direction: column; margin-top: 0;">
+                                                        <span v-show="ticket.state != 3 && ticket.state != 1 && ticket.state != 2"><a style="cursor: pointer;" @click="set_state_ticket(ticket.id, 'refuse')"><i class="icon-share3"></i>Refuse</a></span>
+                                                        <span v-show="ticket.state != 3 && ticket.state != 1 && ticket.state != 2"><a style="cursor: pointer;" @click="set_state_ticket(ticket.id, 'accept')"><i class="icon-eye"></i>Accept</a></span>
+                                                        <span v-show="ticket.state != 3 && ticket.state != 2 && ticket.state != 0"><a style="cursor: pointer;" @click="set_state_ticket(ticket.id, 'done')"><i class="icon-eye"></i>Done</a></span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </article>
+                                        <article class="timeline-entry begin animate-box" style="opacity: 1;">
+                                            <div class="timeline-entry-inner">
+                                                <div class="timeline-icon color-none">
+                                                </div>
+                                            </div>
+                                        </article>
+                                    </div>
+                                    <div v-show="tickets.length === 0">
+                                        No tickets
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height: 9em; flex: 1;">
+                            </div>
+                        </div>
+                    </section>
+                    <section class="colorlib-experience" data-section="admin-calendar" style="height: 100vh; padding-bottom: 0;">
+                        <div class="colorlib-narrow-content" style="max-height: -webkit-fill-available; display: flex; flex-direction: column;">
+                            <div class="row" style="flex: 1;">
+                                <div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
+                                    <span class="heading-meta">Here's your calendar</span>
+                                    <h2 class="colorlib-heading">CRISTAL</h2>
+                                </div>
+                            </div>
+                            <div class="row" style="overflow: hidden; overflow-y: scroll; display: block; position: relative; flex: 1;">
+                                <div class="col-md-12">
+                                    <p>blablabla</p>
+                                </div>
+                            </div>
+                            <div style="height: 9em; flex: 1;">
+                            </div>
+                        </div>
+                    </section>
+                    <%- end -%>
+                </div><!-- end:colorlib-main -->
+
+<%- if logged && !is_admin -%>
+<!-- Ticket modal -->
+<div id="modal_ticket" class="modal">
+    <div class="modal-dialog animated">
+        <div class="modal-content">
+                <div class="modal-header" style="text-align: center;">
+                    <strong>New Ticket</strong>
+                </div>
+
+                <form>
+                    <div class="form-row" style="display: flex;">
+                        <div class="form-group col-md-6">
+                            <label>Building
+                                <span style="color: orange;" v-show="!$v.ticket.building.required && $v.$dirty">Required </span>
+                            </label>
+                            <select class="form-control" v-model="ticket.building">
+                                <option selected disabled>Choose...</option>
+                                <option v-for="building in buildings" :value="building.id">{{building.address}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Orientation
+                                <span style="color: orange;" v-show="!$v.ticket.orientation.required && $v.$dirty">Required </span>
+                            </label>
+                            <select class="form-control" v-model="ticket.orientation">
+                                <option selected disabled>Choose...</option>
+                                <option value="0">North</option>
+                                <option value="45">North East</option>
+                                <option value="90">East</option>
+                                <option value="135">South East</option>
+                                <option value="180">South</option>
+                                <option value="225">South West</option>
+                                <option value="270">West</option>
+                                <option value="315">North West</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row" style="display: flex;">
+                        <div class="form-group col-md-6">
+                            <label>Floor
+                                <span style="color: orange;" v-show="!$v.ticket.building_floor.required && $v.$dirty">Required </span>
+                            </label>
+                            <input type="number" class="form-control" placeholder="zzz" v-model="ticket.building_floor">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Time
+                                <span style="color: orange;" v-show="!$v.ticket.intervention_date.required && $v.$dirty">Required </span>
+                            </label>
+                            <input type="datetime-local" class="form-control" placeholder="zzz" v-model="ticket.intervention_date">
+                        </div>
+                    </div>
+                    <div class="form-row" style="display: flex;">
+                        <div class="form-group col-md-4">
+                            <label>Picture
+                            </label>
+                            <input type="file" class="form-control" id="file" ref="file" @change="handle_ticket_file_upload($event)"/>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="modal-footer">
+                    <a class="btn btn-primary" style="margin-bottom: 0;"v-on:click="send_ticket">Create</a>
+                    <a class="btn btn-primary" style="margin-bottom: 0;" onclick="modal_ticket.close();">Close</a>
+                </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Building modal -->
+<div id="modal_building" class="modal">
+    <div class="modal-dialog animated">
+        <div class="modal-content">
+                <div class="modal-header" style="text-align: center;">
+                    <strong>New Building</strong>
+                </div>
+                <form style="">
+                    <div class="form-row" style="display: flex;">
+                        <div class="form-group col-md-6">
+                            <label>Number of floors
+                                <span style="color: orange;" v-show="!$v.building.nb_floor.required && $v.$dirty">Required </span>
+                            </label>
+                            <input type="text" class="form-control" placeholder="Number of floors" v-model="building.nb_floor">
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label>Address
+                                <span style="color: orange;" v-show="!$v.building.address.required && $v.$dirty">Required </span>
+                            </label>
+                            <input type="text" class="form-control" placeholder="1234 Main St" v-model="building.address">
+                        </div>
+                    </div>
+                    <div class="form-row" style="display: flex;">
+                        <div class="form-group col-md-4">
+                            <label>Country
+                                <span style="color: orange;" v-show="!$v.building.country.required && $v.$dirty">Required </span>
+                            </label>
+                            <input type="text" class="form-control" placeholder="France" v-model="building.country">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Picture
+                            </label>
+                            <input type="file" class="form-control" id="file" ref="file" @change="handle_building_file_upload($event)"/>
+                        </div>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <a class="btn btn-primary" style="margin-bottom: 0;" v-on:click="send_building">Create</a>
+                    <a class="btn btn-primary" style="margin-bottom: 0;" onclick="modal_building.close();">Close</a>
+                </div>
+        </div>
+    </div>
+</div>
+<%- end -%>
+
+            </div><!-- end:container-wrap -->
+        </div><!-- end:colorlib-page -->
+        <%- if logged && is_admin -%>
+        <script src="js/admin.js"></script>
+        <%- else logged && !is_admin -%>
+        <script src="js/client.js"></script>
+        <script type="text/javascript" src="js/rmodal.min.js"></script>
+        <script type="text/javascript">
+            window.onload = function() {
+                let modal_ticket = new RModal(document.getElementById('modal_ticket'));
+
+                document.addEventListener('keydown', function(ev) {
+                    modal_ticket.keydown(ev);
+                }, false);
+
+                document.getElementById('show_modal_ticket')
+                .addEventListener("click", function(ev) {
+                    ev.preventDefault();
+                    modal_ticket.open();
+                }, false);
+
+                window.modal_ticket = modal_ticket;
+
+
+                let modal_building = new RModal(document.getElementById('modal_building'));
+
+                document.addEventListener('keydown', function(ev) {
+                    modal_building.keydown(ev);
+                }, false);
+
+                document.getElementById('show_modal_building')
+                .addEventListener("click", function(ev) {
+                    ev.preventDefault();
+                    modal_building.open();
+                }, false);
+
+                window.modal_building = modal_building;
+            }
+        </script>
+        <%- end -%>
+        <!-- jQuery -->
+        <script src="js/jquery.min.js"></script>
+        <!-- jQuery Easing -->
+        <script src="js/jquery.easing.1.3.js"></script>
+        <!-- Bootstrap -->
+        <script src="js/bootstrap.min.js"></script>
+        <!-- Waypoints -->
+        <script src="js/jquery.waypoints.min.js"></script>
+        <!-- Flexslider -->
+        <script src="js/jquery.flexslider-min.js"></script>
+        <!-- Owl carousel -->
+        <script src="js/owl.carousel.min.js"></script>
+        <!-- Counters -->
+        <script src="js/jquery.countTo.js"></script>
+        <!-- MAIN JS -->
+        <script src="js/main.js"></script>
+    </body>
+</html>
